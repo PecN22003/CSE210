@@ -1,4 +1,4 @@
-#Hilo game
+# Hilo game
 
 get a card, and guess if the next card will be lower or higher.
 
