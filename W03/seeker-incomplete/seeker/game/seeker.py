@@ -1,8 +1,6 @@
 # TODO: Implement the Seeker class as follows...
 
 # 1) Add the class declaration. Use the following class comment.
-from math import nan
-
 
 class Seeker:
     """The person looking for the Hider. 
