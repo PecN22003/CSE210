@@ -25,8 +25,14 @@ class Director:
             self._terminal_service.write_text(man.read())
 
     def _get_inputs(self):
-        # woo! my code golfing style code... (read inside to out... makes more sence that way.)
-        self._guesser.increment_bad_guesses(not self._hider.check_letter(self._terminal_service.read_text("Guess a letter [a-z]: ")))
+        # get a letter guess
+        guessed_letter = self._terminal_service.read_text("Guess a letter [a-z]: ")
+
+        # check if the letter is in the word
+        letter_is_in_word = self._hider.check_letter(guessed_letter)
+
+        # increment bad guess if needed
+        self._guesser.increment_bad_guesses(not letter_is_in_word)
 
     def _do_updates(self):
         if self._hider.check_finished():
