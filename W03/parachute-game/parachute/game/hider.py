@@ -31,6 +31,7 @@ class Hider:
 
         if len(letter) != 1:
             print("Bad guess: not enough letters, or too few")
+            return True
 
         # lletter short for lowercase letter
         lletter = letter.lower()
