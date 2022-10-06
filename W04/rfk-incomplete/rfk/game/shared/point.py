@@ -70,3 +70,9 @@ class Point:
             Point: A new Point that is scaled.
         """
         return Point(self._x * factor, self._y * factor)
+
+    def __rmul__(self, other):
+        return self.scale(other)
+
+    def __mul__(self, other):
+        return self.scale(other)

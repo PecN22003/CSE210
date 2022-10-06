@@ -1,3 +1,13 @@
+from random import randint, shuffle
+
+from game.casting.gem import Gem
+from game.casting.asteroid import Asteroid
+
+from game.shared.point import Point
+from game.shared.color import Color
+from game.shared.constants import FONT_SIZE, COLS, MAX_Y, ROWS, CELL_SIZE
+
+
 class Director:
     """A person who directs the game. 
     
@@ -49,17 +59,47 @@ class Director:
         """
         banner = cast.get_first_actor("banners")
         robot = cast.get_first_actor("robots")
-        artifacts = cast.get_actors("artifacts")
+        gems = cast.get_actors("gems")
+        asteroids = cast.get_actors("asteroids")
 
-        banner.set_text("")
+        new_gem = Gem()
+        color = [0 ,0 ,255]
+        shuffle(color)
+        new_gem.set_color(Color(color[0], color[1], color[2]))
+        new_gem.set_font_size = FONT_SIZE
+        new_gem.set_position(CELL_SIZE*Point(randint(0,COLS-1), 0))
+        new_gem.set_velocity(Point(0,CELL_SIZE))
+        cast.add_actor("gems", new_gem)
+
+        new_asteroid = Asteroid()
+        new_asteroid.set_color(Color(120, 120, 120))
+        new_asteroid.set_font_size = FONT_SIZE
+        new_asteroid.set_position(Point(CELL_SIZE*randint(0,COLS-1), 0))
+        new_asteroid.set_velocity(Point(0,CELL_SIZE))
+        cast.add_actor("asteroids", new_asteroid)
+
+        banner.set_text(f"score: {banner.get_score()}")
         max_x = self._video_service.get_width()
         max_y = self._video_service.get_height()
         robot.move_next(max_x, max_y)
-        
-        for artifact in artifacts:
-            if robot.get_position().equals(artifact.get_position()):
-                message = artifact.get_message()
-                banner.set_text(message)    
+
+        for gem in gems:  
+            gem.move_next()
+            if robot.get_position().equals(gem.get_position()):
+                cast.remove_actor("gems", gem)
+                banner.increment_score()
+                banner.set_text(f"score: {banner.get_score()}") 
+            if gem.get_position().get_y() > MAX_Y:
+                cast.remove_actor("gems", gem)
+
+        for asteroid in asteroids:
+            asteroid.move_next()
+            if robot.get_position().equals(asteroid.get_position()):
+                cast.remove_actor("asteroids", asteroid)
+                banner.decrement_score()
+                banner.set_text(f"score: {banner.get_score()}")  
+            if asteroid.get_position().get_y() > MAX_Y:
+                cast.remove_actor("asteroids", asteroid)
         
     def _do_outputs(self, cast):
         """Draws the actors on the screen.
