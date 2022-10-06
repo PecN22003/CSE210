@@ -36,4 +36,4 @@ root                    (project root folder)
 
 ## Authors
 ---
-* # TODO: Add your name and email here
+* Nicholas Peck - nicholaspeck@byui.edu
