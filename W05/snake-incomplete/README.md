@@ -1,6 +1,5 @@
-# Snake
-Snake is a clone of the classic game that we all used to play on our cellphones. You play this game 
-on a simulated terminal, with a textual interface.
+# Cycle
+Cycle is a game with inspiration taken from Tron. Move around, and try to get your opponent to run into your tail!
 
 ## Getting Started
 ---
@@ -33,4 +32,4 @@ root                    (project root folder)
 
 ## Authors
 ---
-* TODO: Add your name and email here
+* Nicholas Peck - nicholaspeck@byui.edu
