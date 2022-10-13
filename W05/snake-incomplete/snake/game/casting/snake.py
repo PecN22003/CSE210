@@ -10,11 +10,12 @@ class Snake(Actor):
     The responsibility of Snake is to move itself.
 
     Attributes:
-        _points (int): The number of points the food is worth.
+        _points (int): The number of points the food is worth. ...inacurate...
     """
-    def __init__(self):
+    def __init__(self, player = 0):
         super().__init__()
         self._segments = []
+        self.player = player
         self._prepare_body()
 
     def get_segments(self):
@@ -34,8 +35,8 @@ class Snake(Actor):
     def get_head(self):
         return self._segments[0]
 
-    def grow_tail(self, number_of_segments):
-        for i in range(number_of_segments):
+    def grow_tail(self, number_of_segments = 1):
+        for _ in range(number_of_segments):
             tail = self._segments[-1]
             velocity = tail.get_velocity()
             offset = velocity.reverse()
@@ -45,21 +46,23 @@ class Snake(Actor):
             segment.set_position(position)
             segment.set_velocity(velocity)
             segment.set_text("#")
-            segment.set_color(constants.GREEN)
+            segment.set_color(constants.GREEN if self.player == 0 else constants.RED)
             self._segments.append(segment)
 
     def turn_head(self, velocity):
         self._segments[0].set_velocity(velocity)
     
     def _prepare_body(self):
-        x = int(constants.MAX_X / 2)
-        y = int(constants.MAX_Y / 2)
+        print(self)
+        x = int(constants.MAX_X / 2) // constants.CELL_SIZE * constants.CELL_SIZE
+        y = (int(constants.MAX_Y / 3) if self.player == 0 else int(constants.MAX_Y * 2 / 3)) // constants.CELL_SIZE * constants.CELL_SIZE
+        print(y)
 
         for i in range(constants.SNAKE_LENGTH):
             position = Point(x - i * constants.CELL_SIZE, y)
             velocity = Point(1 * constants.CELL_SIZE, 0)
-            text = "8" if i == 0 else "#"
-            color = constants.YELLOW if i == 0 else constants.GREEN
+            text = "@" if i == 0 else "#"
+            color = constants.RED if self.player == 1 else (constants.YELLOW if i == 0 else constants.GREEN)
             
             segment = Actor()
             segment.set_position(position)
